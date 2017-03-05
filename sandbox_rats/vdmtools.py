@@ -116,3 +116,10 @@ def printm(d, indent=0, indepth=0):
                         s = str(list(value.keys()))
 
                 print('{:>{a}} {:>{b}} {:<{c}}'.format(n,t,s,a=nlen,b=tlen,c=5))
+
+def restrict(array,val1,val2):
+    if isinstance(array,np.ndarray):
+        for t in range(np.size(array)):
+            idx = [True if (val1<=k and k<=val2) else False for k in array[t]]
+            array[t] = array[t][idx]
+    return array
