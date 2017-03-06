@@ -121,18 +121,26 @@ def printm(d, indent=0, indepth=0):
 def restrict(array,val1,val2):
     if isinstance(array,np.ndarray):
         for t in range(np.size(array)):
-            idx = [True if (val1<=k and k<=val2) else False for k in array[t]]
-            array[t] = array[t][idx]
-    return array
+            idx1 = val1 <= array[t]
+            idx2 = array[t] <= val2
+            array[t] = array[t][idx1*idx2]
+        return array
 
     
 def ridx(array,val1,val2):
     if isinstance(array,np.ndarray) and np.size(array[0])>1:
         idx_out = []
         for t in range(np.size(array)):
-            idx = [True if (val1<=k and k<=val2) else False for k in array[t]]
-            idx_out.append(idx)
+            idx1 = val1 <= array[t]
+            idx2 = array[t] <= val2
+            idx_out[t] = idx1*idx2
+        idx_out.append(idx)
 
     elif isinstance(array,np.ndarray):
-        idx_out = [True if (val1<=k and k<=val2) else False for k in array]
+            idx1 = val1 <= array
+            idx2 = array <= val2
+            idx_out = idx1*idx2
     return idx_out
+
+
+
