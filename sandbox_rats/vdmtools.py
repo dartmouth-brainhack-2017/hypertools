@@ -5,6 +5,7 @@
 import scipy.io as sio
 import re
 import numpy as np
+import pandas as pd
 
 def loadmat(filename,remove_metadata=1):
     '''
@@ -12,7 +13,7 @@ def loadmat(filename,remove_metadata=1):
     as it cures the problem of not properly recovering python dictionaries
     from mat files. It calls the function check keys to cure all entries
     which are still mat-objects
-    '''	
+    ''' 
     if isinstance(filename,str):
         data = sio.loadmat(filename, struct_as_record=False, squeeze_me=True)
 
@@ -123,3 +124,15 @@ def restrict(array,val1,val2):
             idx = [True if (val1<=k and k<=val2) else False for k in array[t]]
             array[t] = array[t][idx]
     return array
+
+    
+def ridx(array,val1,val2):
+    if isinstance(array,np.ndarray) and np.size(array[0])>1:
+        idx_out = []
+        for t in range(np.size(array)):
+            idx = [True if (val1<=k and k<=val2) else False for k in array[t]]
+            idx_out.append(idx)
+
+    elif isinstance(array,np.ndarray):
+        idx_out = [True if (val1<=k and k<=val2) else False for k in array]
+    return idx_out
